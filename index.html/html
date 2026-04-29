@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlo Bonifacio — Virtual Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F9F5EF;
+    --dark: #1A1714;
+    --accent: #C8854A;
+    --accent2: #8B5E3C;
+    --muted: #7A6E65;
+    --light-border: rgba(26,23,20,0.1);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 5vw;
+    background: rgba(249,245,239,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--light-border);
+    transition: padding .3s;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    letter-spacing: .02em;
+    color: var(--dark);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    font-size: .82rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color .25s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .55rem 1.4rem;
+    border: 1.5px solid var(--accent);
+    color: var(--accent); text-decoration: none;
+    border-radius: 2px;
+    transition: background .25s, color .25s;
+  }
+  .nav-cta:hover { background: var(--accent); color: #fff; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 5vw 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(200,133,74,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-text { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: .7rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 2.5rem; height: 1px; background: var(--accent);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5vw, 4.4rem);
+    line-height: 1.12;
+    font-weight: 700;
+    margin-bottom: 1.6rem;
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted);
+    max-width: 42ch; margin-bottom: 2.8rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--dark); color: var(--cream);
+    padding: .85rem 2.2rem; border-radius: 2px;
+    text-decoration: none; font-size: .85rem;
+    letter-spacing: .08em; text-transform: uppercase;
+    transition: background .25s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+  .btn-secondary {
+    border: 1.5px solid var(--dark); color: var(--dark);
+    padding: .85rem 2.2rem; border-radius: 2px;
+    text-decoration: none; font-size: .85rem;
+    letter-spacing: .08em; text-transform: uppercase;
+    transition: border-color .25s, color .25s, transform .2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-visual {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 1.5rem;
+    position: relative;
+  }
+  .hero-card {
+    background: #fff;
+    border: 1px solid var(--light-border);
+    border-radius: 4px;
+    padding: 2rem 2.4rem;
+    box-shadow: 0 8px 40px rgba(26,23,20,.06);
+    width: 100%; max-width: 360px;
+    position: relative;
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute; bottom: -8px; right: -8px;
+    width: 100%; height: 100%;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    z-index: -1;
+  }
+  .hero-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 1.6rem; color: #fff;
+    margin-bottom: 1rem;
+  }
+  .hero-card h3 { font-family: var(--serif); font-size: 1.2rem; margin-bottom: .3rem; }
+  .hero-card p { font-size: .85rem; color: var(--muted); }
+  .stats-row {
+    display: flex; gap: 2rem; justify-content: center;
+    width: 100%;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--serif); font-size: 2rem;
+    color: var(--accent); display: block; line-height: 1;
+  }
+  .stat-label { font-size: .75rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 5vw; }
+  .section-label {
+    font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .section-label::before {
+    content: ''; width: 2rem; height: 1px; background: var(--accent);
+  }
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); max-width: 50ch; margin-bottom: 3.5rem; }
+
+  /* ── SERVICES ── */
+  #services { background: var(--dark); color: var(--cream); }
+  #services .section-label { color: var(--accent); }
+  #services h2 { color: var(--cream); }
+  #services .section-sub { color: rgba(249,245,239,.55); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px;
+    border: 1.5px solid rgba(249,245,239,.1);
+  }
+  .service-card {
+    padding: 2.5rem;
+    border: 1.5px solid rgba(249,245,239,.1);
+    position: relative;
+    transition: background .3s;
+    cursor: default;
+  }
+  .service-card:hover { background: rgba(200,133,74,.08); }
+  .service-icon {
+    font-size: 2rem; margin-bottom: 1.2rem; display: block;
+  }
+  .service-card h3 {
+    font-family: var(--serif); font-size: 1.15rem;
+    margin-bottom: .7rem; color: var(--cream);
+  }
+  .service-card p { font-size: .88rem; color: rgba(249,245,239,.55); line-height: 1.7; }
+  .service-num {
+    position: absolute; top: 1.5rem; right: 1.8rem;
+    font-family: var(--serif); font-size: .75rem;
+    color: rgba(200,133,74,.4);
+    letter-spacing: .1em;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-bg-card {
+    width: 100%; max-width: 340px;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, rgba(200,133,74,.15), rgba(139,94,60,.1));
+    border: 1px solid var(--light-border);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .about-bg-card .initials {
+    font-family: var(--serif);
+    font-size: 7rem;
+    color: rgba(200,133,74,.2);
+    font-style: italic;
+    user-select: none;
+  }
+  .about-badge {
+    position: absolute; bottom: -1.5rem; right: -1.5rem;
+    background: var(--accent); color: #fff;
+    padding: 1.2rem 1.5rem;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(200,133,74,.35);
+  }
+  .about-badge .num { font-family: var(--serif); font-size: 2rem; display: block; }
+  .about-badge .lbl { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+
+  .skills-list { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
+  .skill-tag {
+    font-size: .78rem; letter-spacing: .06em;
+    padding: .4rem 1rem;
+    border: 1px solid var(--light-border);
+    border-radius: 2px;
+    color: var(--muted);
+    transition: border-color .2s, color .2s;
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── TOOLS ── */
+  #tools { background: #F2EDE5; }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+  .tool-card {
+    background: #fff;
+    border: 1px solid var(--light-border);
+    border-radius: 4px;
+    padding: 1.6rem 1.2rem;
+    text-align: center;
+    transition: box-shadow .25s, transform .25s;
+  }
+  .tool-card:hover { box-shadow: 0 8px 30px rgba(26,23,20,.08); transform: translateY(-3px); }
+  .tool-icon { font-size: 1.8rem; margin-bottom: .6rem; display: block; }
+  .tool-card span { font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
+
+  /* ── PROCESS ── */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute; top: 2.5rem; left: 0; right: 0;
+    height: 1px; background: var(--light-border);
+    z-index: 0;
+  }
+  .step { padding: 0 2rem 2rem; position: relative; z-index: 1; }
+  .step-num {
+    width: 5rem; height: 5rem;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 1px solid var(--light-border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 1.4rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .step h3 { font-family: var(--serif); font-size: 1.1rem; margin-bottom: .5rem; }
+  .step p { font-size: .85rem; color: var(--muted); }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--dark); }
+  #testimonials h2 { color: var(--cream); }
+  #testimonials .section-sub { color: rgba(249,245,239,.5); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .testimonial-card {
+    border: 1px solid rgba(249,245,239,.1);
+    border-radius: 4px;
+    padding: 2rem 2.2rem;
+    position: relative;
+  }
+  .testimonial-card::before {
+    content: '"';
+    font-family: var(--serif); font-size: 5rem;
+    color: rgba(200,133,74,.2);
+    position: absolute; top: .5rem; left: 1.5rem;
+    line-height: 1;
+  }
+  .testimonial-text {
+    font-size: .9rem; color: rgba(249,245,239,.7);
+    line-height: 1.75; margin-bottom: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  .testimonial-author {
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .author-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); color: #fff; font-size: .9rem;
+  }
+  .author-name { font-size: .85rem; color: var(--cream); }
+  .author-role { font-size: .75rem; color: rgba(249,245,239,.45); }
+
+  /* ── CONTACT ── */
+  #contact { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: .4rem; }
+  .form-group label { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    border: 1px solid var(--light-border);
+    border-radius: 2px;
+    padding: .8rem 1rem;
+    font-family: var(--sans); font-size: .9rem;
+    background: #fff; color: var(--dark);
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--accent); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .btn-submit {
+    align-self: flex-start;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 2px;
+    padding: .9rem 2.5rem;
+    font-family: var(--sans); font-size: .85rem;
+    letter-spacing: .1em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background .25s, transform .2s;
+  }
+  .btn-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+
+  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+  .info-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .info-icon {
+    font-size: 1.3rem; margin-top: .1rem; flex-shrink: 0;
+  }
+  .info-label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .info-value { font-size: .9rem; color: var(--dark); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: rgba(249,245,239,.4);
+    padding: 2.5rem 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: .8rem;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  .social-links { display: flex; gap: 1.5rem; }
+  .social-links a { color: rgba(249,245,239,.4); transition: color .2s; }
+  .social-links a:hover { color: var(--accent); }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--light-border); margin: 0; }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; padding-top: 6rem; }
+    .hero-visual { display: none; }
+    #about { grid-template-columns: 1fr; }
+    .about-visual { display: none; }
+    #contact { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+    .process-steps::before { display: none; }
+    .step { padding: 0 0 2rem; }
+    .step-num { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Carlo Bonifacio</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text fade-up">
+    <p class="hero-eyebrow">Virtual Assistant</p>
+    <h1>Your business,<br><em>elevated</em> &amp;<br>organized.</h1>
+    <p class="hero-sub">Hi, I'm Carlo — a reliable Virtual Assistant helping businesses run smoothly, grow faster, and stress less. Let's work together.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Let's Work Together</a>
+      <a href="#services" class="btn-secondary">My Services</a>
+    </div>
+  </div>
+  <div class="hero-visual fade-up">
+    <div class="hero-card">
+      <div class="hero-avatar">C</div>
+      <h3>Carlo Bonifacio</h3>
+      <p>Virtual Assistant · Available for new clients</p>
+      <div style="margin-top:1rem; display:flex; gap:.5rem; flex-wrap:wrap;">
+        <span style="font-size:.72rem;background:rgba(200,133,74,.1);color:var(--accent);padding:.3rem .7rem;border-radius:2px;">Admin Support</span>
+        <span style="font-size:.72rem;background:rgba(200,133,74,.1);color:var(--accent);padding:.3rem .7rem;border-radius:2px;">Social Media</span>
+        <span style="font-size:.72rem;background:rgba(200,133,74,.1);color:var(--accent);padding:.3rem .7rem;border-radius:2px;">Email Management</span>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num">50+</span>
+        <span class="stat-label">Tasks Done</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">On Time</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">5★</span>
+        <span class="stat-label">Rated</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I Offer</div>
+  <h2 style="color:var(--cream);">Services designed to<br>free your time</h2>
+  <p class="section-sub">From inbox zero to social media growth — I handle the tasks so you can focus on what matters most.</p>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <span class="service-num">01</span>
+      <span class="service-icon">📧</span>
+      <h3>Email Management</h3>
+      <p>Inbox organization, drafting responses, filtering spam, and keeping communication professional and timely.</p>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">02</span>
+      <span class="service-icon">📅</span>
+      <h3>Calendar & Scheduling</h3>
+      <p>Managing appointments, setting reminders, coordinating meetings, and keeping your schedule conflict-free.</p>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">03</span>
+      <span class="service-icon">📱</span>
+      <h3>Social Media Management</h3>
+      <p>Content scheduling, caption writing, engagement monitoring, and growing your online presence consistently.</p>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">04</span>
+      <span class="service-icon">🔍</span>
+      <h3>Research & Data Entry</h3>
+      <p>Web research, lead generation, spreadsheet management, and accurate data organization on demand.</p>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">05</span>
+      <span class="service-icon">📝</span>
+      <h3>Content Creation</h3>
+      <p>Blog drafts, social captions, email newsletters, and basic graphic support for your brand's voice.</p>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">06</span>
+      <span class="service-icon">💬</span>
+      <h3>Customer Support</h3>
+      <p>Responding to inquiries, handling FAQs, live chat moderation, and keeping customers happy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual fade-up">
+    <div class="about-bg-card">
+      <span class="initials">CB</span>
+      <div class="about-badge">
+        <span class="num">2+</span>
+        <span class="lbl">Years<br>Experience</span>
+      </div>
+    </div>
+  </div>
+  <div class="fade-up">
+    <div class="section-label">About Me</div>
+    <h2>The person behind<br>your operations</h2>
+    <p style="color:var(--muted); margin-bottom:1rem;">I'm Carlo Bonifacio, a Virtual Assistant passionate about helping entrepreneurs and business owners reclaim their time. I bring precision, reliability, and a proactive mindset to every task.</p>
+    <p style="color:var(--muted);">Currently based in the Philippines, I'm available across multiple time zones and comfortable working with global clients. Whether you need part-time support or a long-term VA partner, I'm ready to adapt.</p>
+    <div class="skills-list">
+      <span class="skill-tag">Communication</span>
+      <span class="skill-tag">Time Management</span>
+      <span class="skill-tag">Attention to Detail</span>
+      <span class="skill-tag">Problem Solving</span>
+      <span class="skill-tag">Fast Learner</span>
+      <span class="skill-tag">Tech-Savvy</span>
+      <span class="skill-tag">Organized</span>
+      <span class="skill-tag">Reliable</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-label">Tech Stack</div>
+  <h2>Tools I work with</h2>
+  <p class="section-sub">I'm comfortable with industry-standard platforms and pick up new tools quickly.</p>
+  <div class="tools-grid">
+    <div class="tool-card fade-up"><span class="tool-icon">📊</span><span>Google Workspace</span></div>
+    <div class="tool-card fade-up"><span class="tool-icon">📋</span><span>Trello</span></div>
+    <div class="tool-card fade-up"><span class="tool-icon">✅</span><span>Asana</span></div>
+    <div class="tool-card fade-up"><span class="tool-icon">💬</span><span>Slack</span></div>
+    <div class="tool-card fade-up"><span class="tool-icon">🎨</span><span>Canva</span></div>
+    <div class="tool-card fade-up"><span class="tool-icon">📦</span><span>Notion</span></div>
+    <div class="tool-card fade-up"><span class="tool-icon">🔗</span><span>Zoom</span></div>
+    <div class="tool-card fade-up"><span class="tool-icon">📁</span><span>Dropbox</span></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="background:var(--cream);">
+  <div class="section-label">How It Works</div>
+  <h2>Simple onboarding,<br>seamless execution</h2>
+  <p class="section-sub">Getting started is easy. Here's what working with me looks like.</p>
+  <div class="process-steps">
+    <div class="step fade-up">
+      <div class="step-num">1</div>
+      <h3>Discovery Call</h3>
+      <p>We discuss your needs, goals, and how I can best support your business.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-num">2</div>
+      <h3>Proposal & Agreement</h3>
+      <p>I send a clear proposal with scope, timeline, and pricing. No hidden fees.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-num">3</div>
+      <h3>Onboarding</h3>
+      <p>We set up tools, access, and workflows so everything runs smoothly from day one.</p>
+    </div>
+    <div class="step fade-up">
+      <div class="step-num">4</div>
+      <h3>Execution & Updates</h3>
+      <p>I get to work and keep you updated consistently so you're always in the loop.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-label" style="color:var(--accent);">Client Reviews</div>
+  <h2 style="color:var(--cream);">What clients say</h2>
+  <p class="section-sub">Real feedback from real people I've worked with.</p>
+  <div class="testimonials-grid">
+    <div class="testimonial-card fade-up">
+      <p class="testimonial-text">Carlo is incredibly reliable and proactive. He handled my inbox and scheduling perfectly — I never had to follow up. Highly recommended.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">J</div>
+        <div>
+          <div class="author-name">Jamie L.</div>
+          <div class="author-role">Online Business Owner</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card fade-up">
+      <p class="testimonial-text">Our social media engagement went up noticeably after Carlo took over. He understands branding and delivers consistently great content.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">M</div>
+        <div>
+          <div class="author-name">Maria G.</div>
+          <div class="author-role">E-commerce Entrepreneur</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card fade-up">
+      <p class="testimonial-text">Fast, organized, and always communicates clearly. Working with Carlo gave me back hours every week I didn't know I was losing.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">A</div>
+        <div>
+          <div class="author-name">Alex T.</div>
+          <div class="author-role">Startup Founder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-up">
+    <div class="section-label">Get In Touch</div>
+    <h2>Ready to delegate<br>and grow?</h2>
+    <p style="color:var(--muted);margin-bottom:2.5rem;">Whether you have a specific task in mind or just want to explore how we can work together — I'd love to hear from you.</p>
+    <div class="contact-info">
+      <div class="info-item">
+        <span class="info-icon">📧</span>
+        <div>
+          <div class="info-label">Email</div>
+          <div class="info-value">carlobonifacio@email.com</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon">🕐</span>
+        <div>
+          <div class="info-label">Availability</div>
+          <div class="info-value">Open to part-time & full-time</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon">🌏</span>
+        <div>
+          <div class="info-label">Location</div>
+          <div class="info-value">Philippines · Remote worldwide</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-form fade-up">
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" placeholder="Jane Smith">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="jane@company.com">
+    </div>
+    <div class="form-group">
+      <label>Service Needed</label>
+      <select>
+        <option value="">Select a service...</option>
+        <option>Email Management</option>
+        <option>Calendar & Scheduling</option>
+        <option>Social Media Management</option>
+        <option>Research & Data Entry</option>
+        <option>Content Creation</option>
+        <option>Customer Support</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea placeholder="Tell me about your project or what you need help with..."></textarea>
+    </div>
+    <button class="btn-submit">Send Message →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Carlo Bonifacio. All rights reserved.</span>
+  <div class="social-links">
+    <a href="#">LinkedIn</a>
+    <a href="#">Upwork</a>
+    <a href="#">Facebook</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (e.target.dataset.delay || 0) + 'ms';
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach((el, i) => {
+    // stagger siblings
+    const siblings = [...el.parentElement.querySelectorAll('.fade-up')];
+    const idx = siblings.indexOf(el);
+    el.dataset.delay = idx * 80;
+    observer.observe(el);
+  });
+
+  // Smooth nav shrink
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.padding = window.scrollY > 60 ? '.9rem 5vw' : '1.4rem 5vw';
+  });
+
+  // Form submit
+  document.querySelector('.btn-submit').addEventListener('click', () => {
+    alert("Thanks for reaching out! Carlo will get back to you shortly. 🙌");
+  });
+</script>
+</body>
+</html>
